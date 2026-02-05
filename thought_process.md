@@ -7,6 +7,7 @@
 - removed external script from index.html
 - implemented redux for cart management as part of the assignment
   - react redux was not installed in dependencies and so had to add them.
+  - added an add button to the products in the home page
 - implemented a Table Of Contents as a extra feature for Ebook
 
 - cleared up intervals and even listeners.
@@ -15,4 +16,4 @@
 - removed common components and moved them to routes.jsx
 - fixed issues in home page
 - removed error boundary in routes.tsx
-- fixed issue in useeffect and removed unnecessary renders
+- fixed issue in useeffect and removed unnecessary renders in ebook
