@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Header from '../../components/ui/Header';
-import PerformanceMonitor from '../../components/ui/PerformanceMonitor';
 import Icon from '../../components/AppIcon';
 import BlockRenderer from './components/BlockRenderer';
 import TableOfContents from './components/TableOfContents';
@@ -219,70 +217,62 @@ const Ebook = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <PerformanceMonitor />
-        <main className="pt-[76px] flex items-center justify-center h-screen">
-          <div className="text-center">
-            <Icon name="Loader2" className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
-            <p className="text-muted-foreground">Loading blocks (this will take a while)...</p>
-          </div>
-        </main>
+      <div className="min-h-screen bg-background flex items-center justify-center h-screen">
+        <div className="text-center">
+          <Icon name="Loader2" className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading blocks (this will take a while)...</p>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-      <PerformanceMonitor />
-      <main className="pt-[76px] pb-12">
-        <TableOfContents blocks={blocks} onNavigate={navigateToBlock} activeHeadingId={activeHeadingId} />
-        <div className="max-w-5xl ml-[280px] px-4 sm:px-6 lg:px-8">
-          {/* Header Section */}
-          <div className="mb-8 pt-8">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 bg-red-500/10 rounded-lg">
-                <Icon name="AlertTriangle" className="w-6 h-6 text-red-500" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold text-foreground">E book</h1>
-                <p className="text-muted-foreground mt-1">Not a book</p>
-              </div>
+      <TableOfContents blocks={blocks} onNavigate={navigateToBlock} activeHeadingId={activeHeadingId} />
+      <div className="max-w-5xl ml-[280px] px-4 sm:px-6 lg:px-8">
+        {/* Header Section */}
+        <div className="mb-8 pt-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-3 bg-red-500/10 rounded-lg">
+              <Icon name="AlertTriangle" className="w-6 h-6 text-red-500" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-foreground">E book</h1>
+              <p className="text-muted-foreground mt-1">Not a book</p>
             </div>
           </div>
-
-          <div className="space-y-2">
-            {blocks?.map((block, index) => (
-              <div
-                key={block?.id}
-                ref={el => blockRefs.current[block.id] = el}
-                draggable
-                onDragStart={() => handleDragStart(block?.id)}
-                onDragOver={(e) => handleDragOver(e, block?.id)}
-                onDrop={(e) => handleDrop(e, block?.id)}
-                className={`transition-all ${
-                  draggedBlock === block?.id ? 'opacity-50' : ''
-                } ${
-                  editingBlock === block?.id ? 'ring-2 ring-primary' : ''
-                }`}
-              >
-                <BlockRenderer
-                  block={block}
-                  onEdit={(content) => handleBlockEdit(block?.id, content)}
-                  isEditing={editingBlock === block?.id}
-                  onAction={handleBlockAction}
-                />
-              </div>
-            ))}
-          </div>
         </div>
-      </main>
-      
-      <Modal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        content={modalContent} 
+
+        <div className="space-y-2">
+          {blocks?.map((block, index) => (
+            <div
+              key={block?.id}
+              ref={el => blockRefs.current[block.id] = el}
+              draggable
+              onDragStart={() => handleDragStart(block?.id)}
+              onDragOver={(e) => handleDragOver(e, block?.id)}
+              onDrop={(e) => handleDrop(e, block?.id)}
+              className={`transition-all ${
+                draggedBlock === block?.id ? 'opacity-50' : ''
+              } ${
+                editingBlock === block?.id ? 'ring-2 ring-primary' : ''
+              }`}
+            >
+              <BlockRenderer
+                block={block}
+                onEdit={(content) => handleBlockEdit(block?.id, content)}
+                isEditing={editingBlock === block?.id}
+                onAction={handleBlockAction}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        content={modalContent}
       />
     </div>
   );
