@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FilterToolbar from './components/FilterToolbar';
 import ProductGrid from './components/ProductGrid';
@@ -81,9 +81,9 @@ const ProductAssessmentDashboard = () => {
     navigate('/product-detail-view', { state: { product } });
   };
 
-  const handleFilterChange = (newFilters) => {
+  const handleFilterChange = useCallback((newFilters) => {
     setFilters(newFilters);
-  };
+  }, [setFilters]);
 
   return (
     <div className="px-4 md:px-6 lg:px-8 pb-8">
