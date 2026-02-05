@@ -5,6 +5,7 @@ import Icon from '../../components/AppIcon';
 import BlockRenderer from './components/BlockRenderer';
 import TableOfContents from './components/TableOfContents';
 import { generateLargeBlockData } from './components/blockData';
+import Modal from './components/Modal';
 
 const Ebook = () => {
   const [blocks, setBlocks] = useState([]);
@@ -13,6 +14,11 @@ const Ebook = () => {
   const [editingBlock, setEditingBlock] = useState(null);
   const [renderCount, setRenderCount] = useState(0);
   const [activeHeadingId, setActiveHeadingId] = useState(null);
+  
+  // Modal State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
+
   const blockRefs = useRef({});
 
   useEffect(() => {
@@ -93,6 +99,45 @@ const Ebook = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [blocks]);
+
+  // Action Handler
+  const handleBlockAction = (action) => {
+    if (!action) return;
+
+    switch (action.type) {
+      case 'modal':
+        if (typeof action.content === 'object' && !React.isValidElement(action.content) && action.content.title) {
+           setModalContent(
+             <div className="space-y-4">
+               <h3 className="text-xl font-bold">{action.content.title}</h3>
+               <p>{action.content.text}</p>
+               <div className="p-4 bg-muted rounded-lg">
+                  <p className="text-sm font-mono">Block ID: {action.content.blockId}</p>
+               </div>
+             </div>
+           );
+        } else {
+           setModalContent(action.content);
+        }
+        setIsModalOpen(true);
+        break;
+      
+      case 'redirect':
+        if (action.url) {
+          window.open(action.url, '_blank');
+        }
+        break;
+      
+      case 'custom':
+        if (typeof action.handler === 'function') {
+          action.handler();
+        }
+        break;
+        
+      default:
+        console.warn('Unknown action type:', action.type);
+    }
+  };
 
   const handleDragStart = (blockId) => {
     setDraggedBlock(blockId);
@@ -225,12 +270,19 @@ const Ebook = () => {
                   block={block}
                   onEdit={(content) => handleBlockEdit(block?.id, content)}
                   isEditing={editingBlock === block?.id}
+                  onAction={handleBlockAction}
                 />
               </div>
             ))}
           </div>
         </div>
       </main>
+      
+      <Modal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        content={modalContent} 
+      />
     </div>
   );
 };

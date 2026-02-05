@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Icon from '../../../components/AppIcon';
 
-const BlockRenderer = ({ block, onEdit, isEditing }) => {
+const BlockRenderer = ({ block, onEdit, isEditing, onAction }) => {
   const [localContent, setLocalContent] = useState(block?.content);
   const [hovered, setHovered] = useState(false);
 
@@ -124,9 +124,13 @@ const BlockRenderer = ({ block, onEdit, isEditing }) => {
             className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors my-4"
             onClick={() => {
               console.log('Button clicked:', block?.id);
-              for (let i = 0; i < 10000000; i++) {
-                Math.random();
+              if (block?.action && onAction) {
+                onAction(block.action);
               }
+              // // Simulate some work
+              // for (let i = 0; i < 10000000; i++) {
+              //   Math.random();
+              // }
             }}
           >
             {block?.content}

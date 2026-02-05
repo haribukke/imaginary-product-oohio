@@ -200,7 +200,37 @@ console.log(fibonacci(10));`,
           id: `block-${i}`,
           type: "button",
           content: `Action Button ${i}`,
-          // `TODO: should be able to provide a custom callback, it could open a modal dialog. or an external redirection`
+          action: (() => {
+            const types = ['modal', 'redirect', 'custom'];
+            const type = types[Math.floor(i / 15) % 3];
+            
+            switch (type) {
+              case 'modal':
+                return {
+                  type: 'modal',
+                  content: {
+                    title: `Modal Content for Block ${i}`,
+                    text: 'This modal was opened from a button block!',
+                    blockId: `block-${i}`
+                  }
+                };
+              case 'redirect':
+                return {
+                  type: 'redirect',
+                  url: 'https://example.com'
+                };
+              case 'custom':
+                return {
+                  type: 'custom',
+                  handler: () => {
+                    console.log(`Custom handler for block ${i} executed!`);
+                    alert(`Custom API call simulated for block ${i}`);
+                  }
+                };
+              default:
+                return null;
+            }
+          })()
         });
         break;
 
