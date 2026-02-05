@@ -90,7 +90,7 @@ const UserAuthentication = () => {
                   <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
                     <span className="text-muted-foreground font-medium">Email:</span>
                     <code className="px-2 py-1 bg-muted rounded text-foreground font-mono text-xs md:text-sm">
-                      demo@react.com
+                      demo@reactarchitect.com
                     </code>
                   </div>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
