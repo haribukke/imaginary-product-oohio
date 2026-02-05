@@ -3,21 +3,36 @@ import Icon from '../../../components/AppIcon';
 
 const LiveDataStreamingSvc = () => {
 
-  const persistentArray = [];
+  const [persistentArray, setPersistentArray] = useState([]);
   
   useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
+      let newArray = [...persistentArray];
       for (let i = 0; i < 1000; i++) {
-        persistentArray?.push({
+        newArray = [
+          ...newArray,
+          {
           id: Math.random(),
           data: new Array(500)?.fill('✨ some dynamic data over from streaming service'),
           timestamp: Date.now()
-        });
+        }];
       }
+      
+      // Limit the array size to prevent memory issues
+      if (newArray.length > 2000) {
+        newArray = newArray.slice(-2000); // Keep only the most recent 2000 items
+      }
+      
+      setPersistentArray(newArray);
 
     }, 2000);
 
-  }, []);
+    // Cleanup function to clear interval
+    return () => {
+      clearInterval(interval);
+    };
+
+  }, [persistentArray]);
 
   return (
     <div className="bg-card border border-border rounded-lg p-4 md:p-6 shadow-md">
