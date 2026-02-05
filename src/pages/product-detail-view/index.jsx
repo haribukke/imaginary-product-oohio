@@ -24,14 +24,19 @@ const ProductDetailView = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
+  
+  // not required
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     console.log('Scroll position:', window.scrollY);
+  //   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      console.log('Scroll position:', window.scrollY);
-    };
+  //   window.addEventListener('scroll', handleScroll);
 
-    window.addEventListener('scroll', handleScroll);
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
 
   useEffect(() => {
     const loadProduct = () => {

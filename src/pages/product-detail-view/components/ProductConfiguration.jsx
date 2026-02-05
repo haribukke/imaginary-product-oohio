@@ -8,9 +8,14 @@ const ProductConfiguration = ({ product, onAddToCart }) => {
   const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0]);
 
   useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
       console.log('Configuration state check:', { quantity, selectedColor, selectedSize });
     }, 2000);
+
+    // Cleanup function to clear interval
+    return () => {
+      clearInterval(interval);
+    };
   }, [quantity, selectedColor, selectedSize]);
 
   useEffect(() => {

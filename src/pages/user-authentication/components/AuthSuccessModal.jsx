@@ -7,9 +7,14 @@ const AuthSuccessModal = ({ user, onClose }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       navigate('/product-assessment-dashboard');
     }, 3000);
+
+    // Cleanup function to clear timeout
+    return () => {
+      clearTimeout(timer);
+    };
   }, [navigate]);
 
   return (

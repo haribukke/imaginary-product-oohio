@@ -37,14 +37,15 @@ const Ebook = () => {
     setBlocks(largeData);
     setIsLoading(false);
 
-    const handleScroll = () => {
-      console.log('Scrolling...', window.scrollY);
-    };
-    window.addEventListener('scroll', handleScroll);
+    //this is not required
+    // const handleScroll = () => {
+    //   console.log('Scrolling...', window.scrollY);
+    // };
+    // window.addEventListener('scroll', handleScroll);
 
-    setInterval(() => {
-      setBlocks(prev => [...prev]);
-    }, 1000);
+    // const interval = setInterval(() => {
+    //   setBlocks(prev => [...prev]);
+    // }, 1000);
   }, []);
 
   // Effect to detect which heading is currently in view

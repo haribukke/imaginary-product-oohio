@@ -24,6 +24,12 @@ const HeavyVideoPlayer = ({ videoUrl }) => {
     video?.addEventListener('timeupdate', handleTimeUpdate);
     video?.addEventListener('loadedmetadata', handleLoadedMetadata);
 
+    // Cleanup function to remove event listeners
+    return () => {
+      video?.removeEventListener('timeupdate', handleTimeUpdate);
+      video?.removeEventListener('loadedmetadata', handleLoadedMetadata);
+    };
+
   }, []);
 
   const handlePlayPause = () => {

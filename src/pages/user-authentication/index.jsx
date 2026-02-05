@@ -19,15 +19,20 @@ const UserAuthentication = () => {
     const handleVisibilityChange = () => {
       console.log('Page visibility changed:', document.hidden);
     };
-    
+
     document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, []);
 
-  useEffect(() => {
-    setInterval(() => {
-      console.log('Auth session check running...');
-    }, 5000);
-  }, []);
+  // backend will handle auth check. and if token is not present, then we have to clear localstorage and redirect to login.
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     console.log('Auth session check running...');
+  //   }, 5000);
+  // }, []);
 
   const handleLoginSubmit = (userData) => {
     setAuthenticatedUser(userData);

@@ -6,16 +6,26 @@ const SocialAuthButtons = ({ onSocialAuth }) => {
   const [loadingProvider, setLoadingProvider] = useState(null);
 
   useEffect(() => {
+    let timer;
     if (loadingProvider) {
-      setTimeout(() => {
+      timer = setTimeout(() => {
         setLoadingProvider(null);
       }, 3000);
     }
+
+    // Cleanup function to clear timeout
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
   }, [loadingProvider]);
 
   const handleSocialAuth = (provider) => {
     setLoadingProvider(provider);
 
+    // Note: This timeout is intentionally not cleared since it's part of the user interaction flow
+    // and the component is likely to remain mounted during the auth process
     setTimeout(() => {
       if (Math.random() > 0.7) {
         console.error('Social authentication failed');

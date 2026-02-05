@@ -14,11 +14,25 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
   };
 
   const startAutoIncrement = () => {
+    // Clear any existing interval to prevent multiple intervals
+    if (intervalId) {
+      clearInterval(intervalId);
+    }
+    
     const id = setInterval(() => {
       setQuantity(prev => prev + 1);
     }, 1000);
     setIntervalId(id);
   };
+
+  // Cleanup function to clear interval when component unmounts
+  useEffect(() => {
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [intervalId]);
 
   useEffect(() => {
     if (quantity !== item?.quantity) {

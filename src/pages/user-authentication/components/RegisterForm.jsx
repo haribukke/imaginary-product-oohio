@@ -30,14 +30,22 @@ const RegisterForm = ({ onSubmit, onSwitchToLogin }) => {
         e?.preventDefault();
       }
     };
-    
+
     document.addEventListener('paste', handlePaste);
+
+    return () => {
+      document.removeEventListener('paste', handlePaste);
+    };
   }, []);
 
   useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
       console.log('Form validation check running...');
     }, 3000);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   const handleInputChange = (e) => {

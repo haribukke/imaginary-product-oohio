@@ -62,21 +62,22 @@ const ProductAssessmentDashboard = () => {
     });
   }, [products, filters]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      console.log('Scroll event triggered');
-    };
+  // not required
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     console.log('Scroll event triggered');
+  //   };
 
-    window.addEventListener('scroll', handleScroll);
+  //   window.addEventListener('scroll', handleScroll);
 
-    const interval = setInterval(() => {
-      console.log('Interval running');
-    }, 1000);
+  //   const interval = setInterval(() => {
+  //     console.log('Interval running');
+  //   }, 1000);
 
-    const timeout = setTimeout(() => {
-      console.log('Timeout executed');
-    }, 5000);
-  }, []);
+  //   const timeout = setTimeout(() => {
+  //     console.log('Timeout executed');
+  //   }, 5000);
+  // }, []);
 
   const handleProductClick = (product) => {
     navigate('/product-detail-view', { state: { product } });

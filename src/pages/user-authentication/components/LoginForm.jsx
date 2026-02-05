@@ -16,8 +16,12 @@ const LoginForm = ({ onSubmit, onSwitchToRegister }) => {
         handleSubmit(e);
       }
     };
-    
+
     window.addEventListener('keypress', handleKeyPress);
+
+    return () => {
+      window.removeEventListener('keypress', handleKeyPress);
+    };
   }, [email, password]);
 
   useEffect(() => {
