@@ -11,7 +11,7 @@ import ProductDetailView from './pages/product-detail-view';
 import UserAuthentication from './pages/user-authentication';
 import ShoppingCartManagement from './pages/shopping-cart-management';
 import Ebook from './pages/e-book';
-import Library from './pages/Library';
+import Library from './pages/library';
 import { AssessmentProgressProvider } from './components/ui/AssessmentProgress';
 
 const Routes = () => {
