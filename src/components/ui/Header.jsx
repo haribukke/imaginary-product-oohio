@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectCartItems } from '../../redux/slices/cartSlice';
 import Icon from '../AppIcon';
 
 const Header = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const cartItems = useSelector(selectCartItems);
+  const cartCount = cartItems?.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
   const navigationItems = [
     {
@@ -21,6 +25,7 @@ const Header = () => {
       label: 'Cart',
       path: '/shopping-cart-management',
       icon: 'ShoppingCart',
+      badge: cartCount > 0 ? cartCount : null
     },
     {
       label: 'Account',
@@ -75,11 +80,18 @@ const Header = () => {
                   }
                 `}
               >
-                <Icon 
-                  name={item?.icon} 
-                  size={18} 
-                  color={isActivePath(item?.path) ? 'var(--color-primary-foreground)' : 'currentColor'}
-                />
+                <div className="relative">
+                  <Icon 
+                    name={item?.icon} 
+                    size={18} 
+                    color={isActivePath(item?.path) ? 'var(--color-primary-foreground)' : 'currentColor'}
+                  />
+                  {item.badge && (
+                    <span className="absolute -top-3 -right-3 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center border-2 border-card">
+                      {item.badge}
+                    </span>
+                  )}
+                </div>
                 <span className="font-medium text-sm">{item?.label}</span>
                 {isActivePath(item?.path) && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent" />
@@ -118,26 +130,20 @@ const Header = () => {
                 `}
               >
                 <div className="flex items-center gap-3">
-                  <Icon 
-                    name={item?.icon} 
-                    size={20} 
-                    color={isActivePath(item?.path) ? 'var(--color-primary-foreground)' : 'currentColor'}
-                  />
+                  <div className="relative">
+                    <Icon 
+                      name={item?.icon} 
+                      size={20} 
+                      color={isActivePath(item?.path) ? 'var(--color-primary-foreground)' : 'currentColor'}
+                    />
+                     {item.badge && (
+                      <span className="absolute -top-3 -right-3 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center">
+                        {item.badge}
+                      </span>
+                    )}
+                  </div>
                   <span className="font-medium">{item?.label}</span>
                 </div>
-                {item?.problemCount > 0 && (
-                  <span 
-                    className={`
-                      px-2 py-1 rounded text-xs font-mono
-                      ${isActivePath(item?.path)
-                        ? 'bg-primary-foreground/20 text-primary-foreground'
-                        : 'bg-warning/20 text-warning'
-                      }
-                    `}
-                  >
-                    {item?.problemCount} issues
-                  </span>
-                )}
               </Link>
             ))}
           </nav>

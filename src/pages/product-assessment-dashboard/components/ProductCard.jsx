@@ -1,12 +1,30 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { addItem } from '../../../redux/slices/cartSlice';
+import Button from '../../../components/ui/Button';
 import Image from '../../../components/AppImage';
 import Icon from '../../../components/AppIcon';
 
 const ProductCard = ({ product, onClick }) => {
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    const cartItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      image: product.image,
+      category: product.category || 'Electronics'
+    };
+    dispatch(addItem(cartItem));
+  };
+
   return (
     <div
       onClick={() => onClick(product)}
-      className="bg-card border border-border rounded-lg overflow-hidden cursor-pointer transition-all duration-250 hover:shadow-lg hover:scale-[0.98] w-full min-w-0"
+      className="bg-card border border-border rounded-lg overflow-hidden cursor-pointer transition-all duration-250 hover:shadow-lg hover:scale-[0.98] w-full min-w-0 flex flex-col h-full"
     >
       <div className="relative w-full aspect-[3/4] overflow-hidden bg-muted">
         <Image
@@ -20,7 +38,7 @@ const ProductCard = ({ product, onClick }) => {
           </div>
         )}
       </div>
-      <div className="p-3 md:p-4">
+      <div className="p-3 md:p-4 flex flex-col flex-1">
         <h3 className="text-sm md:text-base font-semibold text-foreground line-clamp-2 mb-2">
           {product?.name}
         </h3>
@@ -39,13 +57,18 @@ const ProductCard = ({ product, onClick }) => {
           </span>
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="mt-auto flex items-center justify-between gap-2">
           <span className="text-lg md:text-xl font-bold text-primary whitespace-nowrap">
             ${product?.price?.toFixed(2)}
           </span>
-          <span className="text-xs text-muted-foreground capitalize">
-            {product?.category}
-          </span>
+          <Button
+            size="sm"
+            variant="outline"
+            className="h-8 px-2"
+            onClick={handleAddToCart}
+          >
+            Add
+          </Button>
         </div>
       </div>
     </div>
