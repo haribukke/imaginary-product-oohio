@@ -24,7 +24,7 @@ const Routes = () => {
         <Header />
         <PerformanceMonitor />
         <AssessmentProgressIndicator />
-        <ErrorBoundaryStatusIndicator hasActiveErrors={true} />
+        {/* <ErrorBoundaryStatusIndicator hasActiveErrors={true} /> */}
         <main className="pt-[76px]">
           <RouterRoutes>
             <Route path="/" element={<ProductAssessmentDashboard />} />
