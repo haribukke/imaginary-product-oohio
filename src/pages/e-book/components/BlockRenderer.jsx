@@ -7,7 +7,7 @@ const BlockRenderer = ({ block, onEdit, isEditing, onAction }) => {
 
   useEffect(() => {
     setLocalContent(block?.content);
-  });
+  }, [block?.content]);
 
   const processContent = (content) => {
     let processed = content;

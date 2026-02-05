@@ -10,7 +10,6 @@ const Ebook = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [draggedBlock, setDraggedBlock] = useState(null);
   const [editingBlock, setEditingBlock] = useState(null);
-  const [renderCount, setRenderCount] = useState(0);
   const [activeHeadingId, setActiveHeadingId] = useState(null);
   
   // Modal State
@@ -18,10 +17,6 @@ const Ebook = () => {
   const [modalContent, setModalContent] = useState(null);
 
   const blockRefs = useRef({});
-
-  useEffect(() => {
-    setRenderCount(renderCount + 1);
-  });
 
   useEffect(() => {
     const largeData = generateLargeBlockData(500);
