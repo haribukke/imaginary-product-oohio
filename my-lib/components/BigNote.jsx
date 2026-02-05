@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
+import { VariableSizeList as List } from 'react-window';
 
 const content = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis purus turpis, pharetra eu placerat non, maximus ut mi. Vivamus lacus elit, finibus at tempor a, gravida vitae massa. Cras consequat eu urna et dapibus. Etiam auctor facilisis nunc, ac egestas orci euismod vitae. Donec in vehicula leo. Cras iaculis, sem eget rutrum maximus, eros quam lacinia leo, vitae convallis ipsum ipsum et arcu. Duis risus augue, ornare at ligula eget, mollis vehicula tellus. Sed vitae nibh metus. Morbi augue nisl, vulputate id tincidunt eu, pretium ac ipsum. Vivamus est lorem, ultrices non efficitur in, malesuada et ligula. In hac habitasse platea dictumst.
 
@@ -303,10 +304,34 @@ Mauris vitae odio a dui suscipit sodales vel scelerisque nisl. Nulla imperdiet i
 `.repeat(500);
 
 const BigNote = ({ title }) => {
+  // Split content into paragraphs for virtual scrolling
+  const paragraphs = useMemo(() => content.split('\n\n'), [content]);
+
+  const getItemSize = useCallback((index) => {
+    const charsPerLine = 80;
+    const avgLineHeight = 20;
+    const paragraphLength = paragraphs[index]?.length || 0;
+    const estimatedLines = Math.ceil(paragraphLength / charsPerLine);
+    return Math.max(estimatedLines * avgLineHeight, 20); 
+  }, [paragraphs]);
+
+  const Row = useCallback(({ index, style }) => (
+    <div style={style}>
+      <p className="text-yellow-900">{paragraphs[index]}</p>
+    </div>
+  ), [paragraphs]);
   return (
-    <div className="max-w-sm mx-auto bg-yellow-100 border-l-4 border-yellow-500 p-4 rounded shadow-md mt-4">
+    <div className="max-w-sm mx-auto bg-yellow-100 border-l-4 border-yellow-500 p-4 rounded shadow-md mt-4 max-h-[60vh] overflow-y-auto">
       <h2 className="text-lg font-bold text-yellow-800">{title}</h2>
-      <p className="text-yellow-900 mt-2">{content}</p>
+      <List
+        height={200} // Height of the visible area
+        itemCount={paragraphs.length}
+        itemSize={getItemSize}
+        width="100%"
+        overscanCount={5} 
+      >
+        {Row}
+      </List>
     </div>
   );
 };
